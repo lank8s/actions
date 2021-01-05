@@ -148,7 +148,7 @@ func syncImage(orgRepoName, targetRepoName, tag string, wg *sync.WaitGroup) erro
 	}
 	strs := strings.Split(targetRepoName, "/")
 	accessUrl := "lank8s.cn"
-	for i := 1; i < len(strs); i++ {
+	for i := 2; i < len(strs); i++ {
 		accessUrl += "/"
 		accessUrl += strs[i]
 	}
