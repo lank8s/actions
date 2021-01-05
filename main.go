@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"sync"
 
+	"strings"
+
 	docker "github.com/fsouza/go-dockerclient"
 )
 
@@ -140,11 +142,21 @@ func syncImage(orgRepoName, targetRepoName, tag string, wg *sync.WaitGroup) erro
 		Username: username,
 		Password: password,
 	})
+	
 	if err != nil {
 		log.Printf("push failed:%s", err)
 		defer wg.Done()
 		return err
 	}
+	strs := strings.Split(targetRepoName,"/")
+	accessUrl := "lank8s.cn"
+	for i:=1;i<len(strs);i++{
+		accessUrl+="/"
+		accessUrl+=strs[i]
+	}
+	accessUrl+=":"
+	accessUrl+=tag
+	log.Println("you can use `docker pull "+accessUrl+"` for pull this image!")
 	defer wg.Done()
 	log.Println("sync success")
 	return nil
