@@ -16,7 +16,7 @@ import (
 
 var (
 	client   docker.Client
-	server string
+	server   string
 	username string
 	password string
 )
@@ -46,7 +46,7 @@ func main() {
 	flag.StringVar(&username, "u", "username", "账号，默认为username")
 	flag.StringVar(&password, "p", "password", "密码，默认为password")
 	flag.Parse()
-	if server==""{
+	if server == "" {
 		log.Println("please input server url")
 		return
 	}
@@ -78,8 +78,6 @@ func main() {
 	// 	os.Exit(-1)
 	// }
 
-	
-
 	taskSize := len(syncResp.Tasks)
 	if taskSize > 0 {
 		var wg sync.WaitGroup
@@ -92,7 +90,7 @@ func main() {
 		wg.Wait()
 	}
 
-	log.Println("hello once")
+	log.Println("image sync success")
 
 	// orgRepoName := "registry.cn-shenzhen.aliyuncs.com/lan-k8s/kube-proxy"
 	// targetRepoName := "registry.cn-shenzhen.aliyuncs.com/lan-k8s/kube-proxy-demo2"
@@ -142,22 +140,22 @@ func syncImage(orgRepoName, targetRepoName, tag string, wg *sync.WaitGroup) erro
 		Username: username,
 		Password: password,
 	})
-	
+
 	if err != nil {
 		log.Printf("push failed:%s", err)
 		defer wg.Done()
 		return err
 	}
-	strs := strings.Split(targetRepoName,"/")
+	strs := strings.Split(targetRepoName, "/")
 	accessUrl := "lank8s.cn"
-	for i:=1;i<len(strs);i++{
-		accessUrl+="/"
-		accessUrl+=strs[i]
+	for i := 1; i < len(strs); i++ {
+		accessUrl += "/"
+		accessUrl += strs[i]
 	}
-	accessUrl+=":"
-	accessUrl+=tag
-	log.Println("you can use `docker pull "+accessUrl+"` for pull this image!")
+	accessUrl += ":"
+	accessUrl += tag
+	log.Println("you can use `docker pull " + accessUrl + "` for pull this image! \n 你可以用命令:`docker pull " + accessUrl + "`来使用这个镜像")
 	defer wg.Done()
-	log.Println("sync success")
+	// log.Println("sync success")
 	return nil
 }
