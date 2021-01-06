@@ -154,7 +154,7 @@ func syncImage(orgRepoName, targetRepoName, tag string, wg *sync.WaitGroup) erro
 	}
 	accessUrl += ":"
 	accessUrl += tag
-	log.Println("you can use `docker pull " + accessUrl + "` for pull this image! \n 你可以用命令:`docker pull " + accessUrl + "`来使用这个镜像")
+	log.Println("you can use `docker pull " + accessUrl + "` for pull this image! \n ============你可以用命令:`docker pull " + accessUrl + "`来使用这个镜像============")
 	defer wg.Done()
 	// log.Println("sync success")
 	return nil
