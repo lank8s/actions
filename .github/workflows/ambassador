@@ -1,0 +1,20 @@
+name: ambassador Task
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0/30 * * * *'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run container for ambassador
+      run: docker run --rm  ${{ secrets.ad_image }} -e spring.mail.password=${{ secrets.ad_mail_password}} -e spring.mail.username=${{ secrets.ad_mail_username}} -e spring.mail.host=${{ secrets.ad_mail_host}} -e ambassador.mail.title=${{ secrets.ad_mail_apiserver }}
