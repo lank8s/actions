@@ -1,4 +1,4 @@
-name: ambassador Task
+name: Ambassador Task
 
 on:
   push:
